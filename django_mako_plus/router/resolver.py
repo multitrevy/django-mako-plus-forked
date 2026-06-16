@@ -1,19 +1,10 @@
-from django import VERSION
 from django.apps import apps
 from django.core.exceptions import ViewDoesNotExist
 from django.http import Http404
 from django.urls import ResolverMatch
 from django.urls.exceptions import Resolver404
-try:
-    from django.urls import re_path              # Django 2.x
-    from django.urls import URLPattern
-    from django.urls import include
-    from django.urls.resolvers import RegexPattern
-except ImportError:
-    from django.conf.urls import url as re_path  # Django 1.x
-    from django.urls import RegexURLPattern as URLPattern
-    from django.conf.urls import include
-    RegexPattern = None
+from django.urls import re_path, URLPattern, include
+from django.urls.resolvers import RegexPattern
 
 from ..util import merge_dicts, log
 from .data import RoutingData
@@ -195,23 +186,15 @@ class PagePattern(URLPattern):
                     match.kwargs.pop('dmp_function', None) or 'process_request',
                     match.kwargs.pop('dmp_urlparams', '').strip(),
                 )
-                if VERSION < (2, 2):
-                    return ResolverMatch(
-                        RequestViewWrapper(routing_data),
-                        match.args,
-                        match.kwargs,
-                        url_name=match.url_name,
-                        app_names=routing_data.app,
-                    )
-                else:
-                    return ResolverMatch(
-                        RequestViewWrapper(routing_data),
-                        match.args,
-                        match.kwargs,
-                        url_name=match.url_name,
-                        app_names=routing_data.app,
-                        route=str(self.pattern),
-                    )
+                return ResolverMatch(
+                    RequestViewWrapper(routing_data),
+                    match.args,
+                    match.kwargs,
+                    url_name=match.url_name,
+                    app_names=routing_data.app,
+                    route=str(self.pattern),
+                    extra_kwargs=match.extra_kwargs or {},
+                )
             except ViewDoesNotExist as vdne:
                 # we had a pattern match, but we couldn't get a callable using kwargs from the pattern
                 # create a "pattern" so the programmer can see what happened

@@ -1,9 +1,6 @@
 from django.apps import apps
 from django.conf import settings
-try:
-    from django.urls import re_path              # Django 2.x
-except ImportError:
-    from django.conf.urls import url as re_path  # Django 1.x
+from django.urls import re_path
 from django.views.static import serve
 from .router import app_resolver
 import os, os.path

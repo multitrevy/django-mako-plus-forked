@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.utils.html import conditional_escape
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from mako.lexer import Lexer
 from mako import parsetree, ast
@@ -93,7 +93,7 @@ class ExpressionPostProcessor(object):
         '''
         # we apply this across the board, even if the `n` filter is present because
         # DMP always creates unicode (see adapter.py where render_unicode() is used)
-        text = force_text(text)
+        text = force_str(text)
 
         # html encoding
         if self.html_escape:

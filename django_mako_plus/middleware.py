@@ -1,10 +1,5 @@
 
-# try to import MiddlewareMixIn (Django 1.10+)
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    # create a dummy MiddlewareMixin if older Django
-    MiddlewareMixin = object
+from django.utils.deprecation import MiddlewareMixin
 
 from .router import RequestViewWrapper, RoutingData
 

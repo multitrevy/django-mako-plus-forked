@@ -20,7 +20,7 @@ from django.dispatch import Signal
 #    view_args   :: The list of positional arguments to be sent to the view function.
 #    view_kwargs :: The dictionary of keyword arguments to be sent to the view function.
 #
-dmp_signal_pre_process_request = Signal(providing_args=['request', 'view_args', 'view_kwargs'])
+dmp_signal_pre_process_request = Signal()
 
 #  Triggered just after a view's process_request() method returns.
 #  If the method returns an HttpResponse object, the normal response is replaced with that object.
@@ -30,7 +30,7 @@ dmp_signal_pre_process_request = Signal(providing_args=['request', 'view_args', 
 #    view_args    :: The list of positional arguments that was to the view.
 #    view_kwargs  :: The dictionary of keyword arguments that was sent to the view function.
 #
-dmp_signal_post_process_request = Signal(providing_args=['request', 'response', 'view_args', 'view_kwargs'])
+dmp_signal_post_process_request = Signal()
 
 #  Triggered just before DMP renders a Mako template.
 #  If the method returns a different Template object than the one passed into it, the returned on is used.
@@ -39,7 +39,7 @@ dmp_signal_post_process_request = Signal(providing_args=['request', 'response', 
 #    request  :: the request object
 #    context  :: the dict of variables being sent to the template.
 #    template :: the Mako template object that will render.
-dmp_signal_pre_render_template = Signal(providing_args=['request', 'context', 'template'])
+dmp_signal_pre_render_template = Signal()
 
 #  Triggered just after DMP renders a Mako template.
 #  If the method returns a value, the template-generated content is replaced with that value.  While
@@ -49,7 +49,7 @@ dmp_signal_pre_render_template = Signal(providing_args=['request', 'context', 't
 #    context  :: the dict of variables being sent to the template.
 #    template :: the Mako template object that will render.
 #    content  :: the rendered content from the template.
-dmp_signal_post_render_template = Signal(providing_args=['request', 'context', 'template', 'content'])
+dmp_signal_post_render_template = Signal()
 
 #  Triggered when a RedirectException is encountered in the DMP controller.
 #  This signal lets you adjust the values of the exception, such as where it is redirecting to.
@@ -58,14 +58,14 @@ dmp_signal_post_render_template = Signal(providing_args=['request', 'context', '
 #    exc          :: The exception object, including:
 #                       exc.redirect_to (new url the router will process with)
 #                       exc.permanent   (whether the browser should be told it is a permanent redirect or not)
-dmp_signal_redirect_exception = Signal(providing_args=['request', 'exc'])
+dmp_signal_redirect_exception = Signal()
 
 #  Triggered when an InternalRedirectException is encountered in the DMP controller.
 #  This signal lets you adjust the values of the exception, such as where it is redirecting to.
 #
 #    request      :: the request object
 #    exc          :: The exception object, including exc.redirect_to (new url the router will process with).
-dmp_signal_internal_redirect_exception = Signal(providing_args=['request', 'exc'])
+dmp_signal_internal_redirect_exception = Signal()
 
 
 #  Triggered just after the DMP template engine registers an app
@@ -73,4 +73,4 @@ dmp_signal_internal_redirect_exception = Signal(providing_args=['request', 'exc'
 #  The `sender` argument is the DMP template engine instance.
 #
 #    app_config   :: the AppConfig object for the app
-dmp_signal_register_app = Signal(providing_args=['app_config'])
+dmp_signal_register_app = Signal()
